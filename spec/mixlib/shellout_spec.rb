@@ -951,11 +951,11 @@ describe Mixlib::ShellOut do
         end
 
         it "includes output with exceptions from #error!" do
-          begin
-            executed_cmd.error!
-          rescue Mixlib::ShellOut::ShellCommandFailed => e
-            expect(e.message).to match(exception_message_format)
-          end
+
+          executed_cmd.error!
+        rescue Mixlib::ShellOut::ShellCommandFailed => e
+          expect(e.message).to match(exception_message_format)
+
         end
 
         it "should set the exit status of the command" do
@@ -1087,11 +1087,11 @@ describe Mixlib::ShellOut do
           # probably won't be consistent on different environments.
           created_procs = 0
           100.times do
-            begin
-              shell_out_cmd.run_command
-            rescue Errno::ENOENT
-              created_procs += 1
-            end
+
+            shell_out_cmd.run_command
+          rescue Errno::ENOENT
+            created_procs += 1
+
           end
           expect(created_procs).to eq(100)
           reaped_procs = 0
@@ -1449,7 +1449,9 @@ describe Mixlib::ShellOut do
         context "with input data" do
           let(:ruby_code) { "bad_ruby { [ } ]" }
           let(:options) { { input: input } }
-          let(:input) { [ "f" * 20_000, "u" * 20_000, "f" * 20_000, "u" * 20_000 ].join(LINE_ENDING) }
+          # https://github.com/chef/mixlib-shellout/issues/204
+          let(:repeats) { 20_000 * (Etc.sysconf(Etc::SC_PAGESIZE) / 4096) }
+          let(:input) { [ "f" * repeats, "u" * repeats, "f" * repeats, "u" * repeats ].join(LINE_ENDING) }
 
           # Should the exception be handled?
           it "should raise error" do
