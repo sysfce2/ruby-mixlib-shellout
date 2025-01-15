@@ -1,13 +1,44 @@
 # mixlib-shellout Changelog
 
+<!-- latest_release 3.3.6 -->
+## [v3.3.6](https://github.com/chef/mixlib-shellout/tree/v3.3.6) (2025-01-15)
+
+#### Merged Pull Requests
+- Fix quoting regression [#254](https://github.com/chef/mixlib-shellout/pull/254) ([thheinen](https://github.com/thheinen))
 <!-- latest_release -->
-<!-- latest_release -->
-<!-- release_rollup since=3.2.7 -->
+<!-- release_rollup since=3.3.4 -->
 ### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Fix quoting regression [#254](https://github.com/chef/mixlib-shellout/pull/254) ([thheinen](https://github.com/thheinen)) <!-- 3.3.6 -->
+- [CI] Drop EOL Rubies [#253](https://github.com/chef/mixlib-shellout/pull/253) ([dafyddcrosby](https://github.com/dafyddcrosby)) <!-- 3.3.5 -->
 <!-- release_rollup -->
 <!-- latest_stable_release -->
-## [v3.2.7](https://github.com/chef/mixlib-shellout/tree/v3.2.7) (2022-04-04)
+## [v3.3.4](https://github.com/chef/mixlib-shellout/tree/v3.3.4) (2024-11-05)
+
+#### Merged Pull Requests
+- Fix quoting of command arguments in Target Mode [#251](https://github.com/chef/mixlib-shellout/pull/251) ([thheinen](https://github.com/thheinen))
 <!-- latest_stable_release -->
+
+## [v3.3.3](https://github.com/chef/mixlib-shellout/tree/v3.3.3) (2024-10-14)
+
+## [v3.3.3](https://github.com/chef/mixlib-shellout/tree/v3.3.3) (2024-10-14)
+
+#### Merged Pull Requests
+- [Unix#run_command] Remove Ruby 1.8.7 check [#242](https://github.com/chef/mixlib-shellout/pull/242) ([dafyddcrosby](https://github.com/dafyddcrosby))
+- [#239] Add execution time to Windows shellout object [#247](https://github.com/chef/mixlib-shellout/pull/247) ([dafyddcrosby](https://github.com/dafyddcrosby))
+- Increase EPIPE test input size based on platform page size [#241](https://github.com/chef/mixlib-shellout/pull/241) ([matoro](https://github.com/matoro))
+- Adjustments for Chef Target Mode [#243](https://github.com/chef/mixlib-shellout/pull/243) ([thheinen](https://github.com/thheinen))
+- Migrate from Chefstyle to Cookstyle [#249](https://github.com/chef/mixlib-shellout/pull/249) ([dafyddcrosby](https://github.com/dafyddcrosby))
+- Fix execution in target mode with cwd parameter given [#250](https://github.com/chef/mixlib-shellout/pull/250) ([thheinen](https://github.com/thheinen))
+- Fix execution of multiline inputs to target mode; Improve error output [#248](https://github.com/chef/mixlib-shellout/pull/248) ([thheinen](https://github.com/thheinen))
+
+## [v3.2.8](https://github.com/chef/mixlib-shellout/tree/v3.2.8) (2024-06-11)
+
+#### Merged Pull Requests
+- Keep ffi version below 1.17 [#244](https://github.com/chef/mixlib-shellout/pull/244) ([tpowell-progress](https://github.com/tpowell-progress))
+
+## [v3.2.7](https://github.com/chef/mixlib-shellout/tree/v3.2.7) (2022-04-04)
 
 ## [v3.2.7](https://github.com/chef/mixlib-shellout/tree/v3.2.7) (2022-04-04)
 

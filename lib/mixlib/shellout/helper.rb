@@ -141,9 +141,43 @@ module Mixlib
         args.flatten.compact.map(&:to_s)
       end
 
+      # Join arguments into a string.
+      #
+      # Strips leading/trailing spaces from each argument. If an argument contains
+      # a space, it is quoted. Join into a single string with spaces between each argument.
+      #
+      # @param args [String] variable number of string arguments
+      # @return [String] merged string
+      #
+      def __join_whitespace(*args, quote: false)
+        args.map do |arg|
+          if arg.is_a?(Array)
+            __join_whitespace(*arg, quote: arg.count > 1)
+          else
+            arg = arg.include?(" ") ? sprintf('"%s"', arg) : arg if quote
+            arg.strip
+          end
+        end.join(" ")
+      end
+
       def __shell_out_command(*args, **options)
         if __transport_connection
-          FakeShellOut.new(args, options, __transport_connection.run_command(args.join(" "))) # FIXME: train should accept run_command(*args)
+          command = __join_whitespace(args)
+          unless ChefUtils.windows?
+            if options[:cwd]
+              # as `timeout` is used, commands need to be executed in a subshell
+              command = "sh -c 'cd #{options[:cwd]}; #{command}'"
+            end
+
+            if options[:input]
+              command.concat "<<'COMMANDINPUT'\n"
+              command.concat __join_whitespace(options[:input])
+              command.concat "\nCOMMANDINPUT\n"
+            end
+          end
+
+          # FIXME: train should accept run_command(*args)
+          FakeShellOut.new(args, options, __transport_connection.run_command(command, options))
         else
           cmd = if options.empty?
                   Mixlib::ShellOut.new(*args)
@@ -181,15 +215,16 @@ module Mixlib
           @stdout = result.stdout
           @stderr = result.stderr
           @exitstatus = result.exit_status
-          @status = OpenStruct.new(success?: ( exitstatus == 0 ))
+          @valid_exit_codes = Array(options[:returns] || 0)
+          @status = OpenStruct.new(success?: (@valid_exit_codes.include? exitstatus))
         end
 
         def error?
-          exitstatus != 0
+          @valid_exit_codes.none?(exitstatus)
         end
 
         def error!
-          raise Mixlib::ShellOut::ShellCommandFailed, "Unexpected exit status of #{exitstatus} running #{@args}" if error?
+          raise Mixlib::ShellOut::ShellCommandFailed, "Unexpected exit status of #{exitstatus} running #{@args}: #{stderr}" if error?
         end
       end
     end
